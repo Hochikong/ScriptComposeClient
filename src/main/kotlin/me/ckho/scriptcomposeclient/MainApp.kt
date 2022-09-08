@@ -1,5 +1,8 @@
 package me.ckho.scriptcomposeclient
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import me.ckho.USwingGUI.codegen.impMainFrame
 import me.ckho.USwingGUI.entity.SimpleConnectionCfg
 import okhttp3.FormBody
@@ -49,17 +52,29 @@ class MainApp(connReg: List<SimpleConnectionCfg>) : impMainFrame(connReg) {
 
     override fun treeMouseClicked(evt: MouseEvent?) {
         if (evt!!.clickCount == 2 && !evt.isConsumed && currentSelectedTreeNode != "Compose Service") {
-            val cfg = super.connReg[super.currentSelectedTreeNode]!!
-            if (composeLogin(cfg)) {
-                ConnStatusLabel.text = currentSelectedTreeNode + " Connected"
-                ConnStatusLabel.foreground = Color(0, 204, 153)
+            CoroutineScope(Dispatchers.IO).launch {
+                super.ProgressBar.isIndeterminate = true
+                val cfg = super.connReg[super.currentSelectedTreeNode]!!
 
-                this.listCronTasks(cfg)
-            } else {
-                ConnStatusLabel.text = currentSelectedTreeNode + " Connect Failed"
-                ConnStatusLabel.foreground = Color(196, 22, 7)
+                try {
+                    val done = composeLogin(cfg)
+                    if (done) {
+                        super.ProgressBar.isIndeterminate = false
+                        ConnStatusLabel.text = "$currentSelectedTreeNode Connected"
+                        ConnStatusLabel.foreground = Color(0, 204, 153)
+
+                        listCronTasks(cfg)
+                    } else {
+                        super.ProgressBar.isIndeterminate = false
+                        ConnStatusLabel.text = "$currentSelectedTreeNode Connect Failed"
+                        ConnStatusLabel.foreground = Color(196, 22, 7)
+                    }
+                } catch (e: java.net.SocketTimeoutException) {
+                    super.ProgressBar.isIndeterminate = false
+                    ConnStatusLabel.text = "$currentSelectedTreeNode Connect Failed"
+                    ConnStatusLabel.foreground = Color(196, 22, 7)
+                }
             }
-
         }
     }
 

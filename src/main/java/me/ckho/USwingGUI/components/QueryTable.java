@@ -8,6 +8,7 @@ package me.ckho.USwingGUI.components;
 import javax.swing.table.AbstractTableModel;
 
 /**
+ *
  * @author ckhoi
  */
 public class QueryTable extends AbstractTableModel {

@@ -5,14 +5,12 @@
  */
 package me.ckho.USwingGUI;
 
-
-import java.io.IOException;
-
 /**
+ *
  * @author ckhoi
  */
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         System.out.println("Hello");
     }
 }

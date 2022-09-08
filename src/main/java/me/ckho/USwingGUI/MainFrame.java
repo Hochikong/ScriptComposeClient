@@ -27,9 +27,166 @@ import java.util.List;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    /**
+     * Creates new form MainFrame
+     */
+    public MainFrame() {
+        this.connReg.put("Test", new SimpleConnectionCfg("Test", "URL", "USERNAME", "PASSWD"));
+        initComponents();
+        HideHead();
+    }
+
+    public MainFrame(List<SimpleConnectionCfg> connReg) {
+        for (SimpleConnectionCfg cfg : connReg) {
+            this.connReg.put(cfg.getName(), cfg);
+        }
+        initComponents();
+        HideHead();
+    }
+
     protected String[] timeFilters = {"Not Selected", "Last 1 Hour", "Last 6 Hours", "Last 12 Hours", "Last 1 Day", "Last 3 Days", "Last Week"};
+
+    //<Auto-Generate>
+    private void RefreshRegsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshRegsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RefreshRegsButtonActionPerformed
+
+    private void AboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AboutMenuItemActionPerformed
+
+    private void ExitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ExitMenuItemActionPerformed
+
+    private void AnalyzeFilterLogsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnalyzeFilterLogsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AnalyzeFilterLogsButtonActionPerformed
+
+    private void ViewLogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewLogButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ViewLogButtonActionPerformed
+
+    private void ScriptsTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ScriptsTabbedPaneStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ScriptsTabbedPaneStateChanged
+
+    private void ClearFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearFilterButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ClearFilterButtonActionPerformed
+
+    private void LogSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_LogSelectComboBoxItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LogSelectComboBoxItemStateChanged
+
+    private void QuickRangeSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_QuickRangeSelectComboBoxItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_QuickRangeSelectComboBoxItemStateChanged
+
+    //</Auto-Generate>
     protected String currentSelectedTreeNode = "";
     protected HashMap<String, SimpleConnectionCfg> connReg = new HashMap<>();
+
+    protected JLabel registerVerticalTab(String tabTitle, boolean clockwise) {
+        JLabel result = new JLabel(tabTitle);
+        result.setPreferredSize(new Dimension(12, 80));
+        result.setFont(OverrideUIFont);
+        result.setVerticalAlignment(SwingConstants.CENTER);
+        result.setHorizontalAlignment(SwingConstants.CENTER);
+        result.setUI(new VerticalTabComp(clockwise));
+        return result;
+    }
+
+    protected void HideHead() {
+        // Like IDEA style
+        this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+    }
+
+    // -------------------------------------------------------------------------
+    // Logic code
+    protected TableModel buildSearchResultModel() {
+        return new QueryTable();
+    }
+
+    protected TableModel buildSearchResultModel(Object[][] data) {
+        return new QueryTable(data);
+    }
+
+    protected void newTab(String groupName) {
+        JScrollPane ScriptsScrollPane = new javax.swing.JScrollPane();
+        ScriptsScrollPane.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        ScriptsTabbedPane.addTab(groupName, ScriptsScrollPane);
+
+        JTable tableResult = new javax.swing.JTable();
+        tableResult.setRowHeight(30);
+        tableResult.setShowVerticalLines(true);
+        tableResult.setModel(buildSearchResultModel());
+        tableResult.removeColumn(tableResult.getColumnModel().getColumn(0));
+        // hide last column
+        tableResult.removeColumn(tableResult.getColumnModel().getColumn(5));
+
+        ListSelectionModel selectionModel = tableResult.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                // make it not emit event twice
+                if (!e.getValueIsAdjusting()) {
+                    // due to fifth column hidded, should get data from model not the table!!
+                    currentSelectTaskHash = tableResult.getModel().getValueAt(tableResult.getSelectedRow(), 5).toString();
+                }
+            }
+        });
+
+        tableResult.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tableResult.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        ScriptsScrollPane.setViewportView(tableResult);
+    }
+
+    protected void updateRowColor() {
+        int count = ScriptsTabbedPane.getTabCount();
+        for (int i = 0; i < count; i++) {
+            JScrollPane scrollPane = (JScrollPane) ScriptsTabbedPane.getComponentAt(i);
+            JViewport viewport = scrollPane.getViewport();
+            JTable tb = (JTable) viewport.getView();
+            int tableRows = tb.getRowCount();
+            for (int j = 0; j < tableRows; j++) {
+                tb.setDefaultRenderer(Object.class, new TableRowsRenderer());
+            }
+        }
+    }
+
+    protected void treeMouseClicked(java.awt.event.MouseEvent evt) {
+        if (evt.getClickCount() == 2 && !evt.isConsumed() && currentSelectedTreeNode != "Compose Service") {
+            this.ConnStatusLabel.setText(this.currentSelectedTreeNode + " Connected");
+            this.ConnStatusLabel.setForeground(new Color(0, 204, 153));
+        }
+    }
+
+    protected JTree initConnectionsTree() {
+        DefaultMutableTreeNode topTree = new DefaultMutableTreeNode("Compose Service");
+        for (String key : connReg.keySet()) {
+            DefaultMutableTreeNode services = new DefaultMutableTreeNode(key);
+            topTree.add(services);
+        }
+        JTree tree = new JTree(topTree);
+        tree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                treeMouseClicked(evt);
+            }
+        });
+        tree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                currentSelectedTreeNode = selectedNode.getUserObject().toString();
+            }
+        });
+        return tree;
+    }
+
+    protected void refreshScriptsLogsDropdown() {
+        LogSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(availableScriptsLogs.stream().toArray(String[]::new)));
+    }
+
     protected List<String> availableScriptsList = new ArrayList<>();
     protected List<String> availableScriptsLogs = new ArrayList<>();
     protected int currentSelectedTab = 0;
@@ -40,7 +197,6 @@ public class MainFrame extends javax.swing.JFrame {
     protected javax.swing.JPanel BottomPanel;
     protected javax.swing.JButton ClearFilterButton;
     protected javax.swing.JPanel ComposePanel;
-    //</Auto-Generate>
     protected javax.swing.JScrollPane ComposeScrollPane;
     protected javax.swing.JLabel ConnStatusLabel;
     protected javax.swing.JTree DefaultTree;
@@ -70,23 +226,6 @@ public class MainFrame extends javax.swing.JFrame {
     protected javax.swing.JButton ViewLogButton;
     // controll vertical tab menu font size
     private Font OverrideUIFont = UIManager.getFont("defaultFont").deriveFont(14.0F);
-
-    /**
-     * Creates new form MainFrame
-     */
-    public MainFrame() {
-        this.connReg.put("Test", new SimpleConnectionCfg("Test", "URL", "USERNAME", "PASSWD"));
-        initComponents();
-        HideHead();
-    }
-
-    public MainFrame(List<SimpleConnectionCfg> connReg) {
-        for (SimpleConnectionCfg cfg : connReg) {
-            this.connReg.put(cfg.getName(), cfg);
-        }
-        initComponents();
-        HideHead();
-    }
 
     /**
      * @param args the command line arguments
@@ -391,142 +530,5 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    //<Auto-Generate>
-    private void RefreshRegsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshRegsButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RefreshRegsButtonActionPerformed
-
-    private void AboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutMenuItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AboutMenuItemActionPerformed
-
-    private void ExitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitMenuItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ExitMenuItemActionPerformed
-
-    private void AnalyzeFilterLogsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnalyzeFilterLogsButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AnalyzeFilterLogsButtonActionPerformed
-
-    private void ViewLogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewLogButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ViewLogButtonActionPerformed
-
-    private void ScriptsTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ScriptsTabbedPaneStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ScriptsTabbedPaneStateChanged
-
-    private void ClearFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearFilterButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ClearFilterButtonActionPerformed
-
-    private void LogSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_LogSelectComboBoxItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LogSelectComboBoxItemStateChanged
-
-    private void QuickRangeSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_QuickRangeSelectComboBoxItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_QuickRangeSelectComboBoxItemStateChanged
-
-    protected JLabel registerVerticalTab(String tabTitle, boolean clockwise) {
-        JLabel result = new JLabel(tabTitle);
-        result.setPreferredSize(new Dimension(12, 80));
-        result.setFont(OverrideUIFont);
-        result.setVerticalAlignment(SwingConstants.CENTER);
-        result.setHorizontalAlignment(SwingConstants.CENTER);
-        result.setUI(new VerticalTabComp(clockwise));
-        return result;
-    }
-
-    protected void HideHead() {
-        // Like IDEA style
-        this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-    }
-
-    // -------------------------------------------------------------------------
-    // Logic code
-    protected TableModel buildSearchResultModel() {
-        return new QueryTable();
-    }
-
-    protected TableModel buildSearchResultModel(Object[][] data) {
-        return new QueryTable(data);
-    }
-
-    protected void newTab(String groupName) {
-        JScrollPane ScriptsScrollPane = new javax.swing.JScrollPane();
-        ScriptsScrollPane.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        ScriptsTabbedPane.addTab(groupName, ScriptsScrollPane);
-
-        JTable tableResult = new javax.swing.JTable();
-        tableResult.setRowHeight(30);
-        tableResult.setShowVerticalLines(true);
-        tableResult.setModel(buildSearchResultModel());
-        tableResult.removeColumn(tableResult.getColumnModel().getColumn(0));
-        // hide last column
-        tableResult.removeColumn(tableResult.getColumnModel().getColumn(5));
-
-        ListSelectionModel selectionModel = tableResult.getSelectionModel();
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                // make it not emit event twice
-                if (!e.getValueIsAdjusting()) {
-                    // due to fifth column hidded, should get data from model not the table!!
-                    currentSelectTaskHash = tableResult.getModel().getValueAt(tableResult.getSelectedRow(), 5).toString();
-                }
-            }
-        });
-
-        tableResult.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tableResult.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        ScriptsScrollPane.setViewportView(tableResult);
-    }
-
-    protected void updateRowColor() {
-        int count = ScriptsTabbedPane.getTabCount();
-        for (int i = 0; i < count; i++) {
-            JScrollPane scrollPane = (JScrollPane) ScriptsTabbedPane.getComponentAt(i);
-            JViewport viewport = scrollPane.getViewport();
-            JTable tb = (JTable) viewport.getView();
-            int tableRows = tb.getRowCount();
-            for (int j = 0; j < tableRows; j++) {
-                tb.setDefaultRenderer(Object.class, new TableRowsRenderer());
-            }
-        }
-    }
-
-    protected void treeMouseClicked(java.awt.event.MouseEvent evt) {
-        if (evt.getClickCount() == 2 && !evt.isConsumed() && currentSelectedTreeNode != "Compose Service") {
-            this.ConnStatusLabel.setText(this.currentSelectedTreeNode + " Connected");
-            this.ConnStatusLabel.setForeground(new Color(0, 204, 153));
-        }
-    }
-
-    protected JTree initConnectionsTree() {
-        DefaultMutableTreeNode topTree = new DefaultMutableTreeNode("Compose Service");
-        for (String key : connReg.keySet()) {
-            DefaultMutableTreeNode services = new DefaultMutableTreeNode(key);
-            topTree.add(services);
-        }
-        JTree tree = new JTree(topTree);
-        tree.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                treeMouseClicked(evt);
-            }
-        });
-        tree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                currentSelectedTreeNode = selectedNode.getUserObject().toString();
-            }
-        });
-        return tree;
-    }
-
-    protected void refreshScriptsLogsDropdown() {
-        LogSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(availableScriptsLogs.stream().toArray(String[]::new)));
-    }
     // End of variables declaration//GEN-END:variables
 }

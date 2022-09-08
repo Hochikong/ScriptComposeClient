@@ -8,6 +8,7 @@ package me.ckho.USwingGUI.entity;
 import java.util.Objects;
 
 /**
+ *
  * @author ckhoi
  */
 public class SimpleConnectionCfg {
@@ -79,15 +80,5 @@ public class SimpleConnectionCfg {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "SimpleConnectionCfg{" +
-                "name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }
