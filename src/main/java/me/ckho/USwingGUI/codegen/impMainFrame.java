@@ -533,31 +533,14 @@ public class impMainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //<Auto-Generate-Result>
-    protected void impRefreshRegsButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    }
-
-    protected void impAboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-    }
-
-    protected void impExitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-    }
-
-    protected void impAnalyzeFilterLogsButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    }
-
-    protected void impViewLogButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    }
-
-    protected void impScriptsTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {
-    }
-
-    protected void impClearFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {
-    }
-
-    protected void impLogSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {
-    }
-
-    protected void impQuickRangeSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {
-    }
+    protected void impRefreshRegsButtonActionPerformed(java.awt.event.ActionEvent evt){}
+    protected void impAboutMenuItemActionPerformed(java.awt.event.ActionEvent evt){}
+    protected void impExitMenuItemActionPerformed(java.awt.event.ActionEvent evt){}
+    protected void impAnalyzeFilterLogsButtonActionPerformed(java.awt.event.ActionEvent evt){}
+    protected void impViewLogButtonActionPerformed(java.awt.event.ActionEvent evt){}
+    protected void impScriptsTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){}
+    protected void impClearFilterButtonActionPerformed(java.awt.event.ActionEvent evt){}
+    protected void impLogSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt){}
+    protected void impQuickRangeSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt){}
     //</Auto-Generate-Result>
 }

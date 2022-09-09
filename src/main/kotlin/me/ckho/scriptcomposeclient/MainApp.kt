@@ -5,26 +5,33 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.ckho.USwingGUI.codegen.impMainFrame
 import me.ckho.USwingGUI.entity.SimpleConnectionCfg
-import okhttp3.FormBody
-import okhttp3.HttpUrl.Companion.toHttpUrl
+import me.ckho.scriptcomposeclient.entity.TaskListEntity
+import me.ckho.scriptcomposeclient.utils.JSONMapper
+import me.ckho.scriptcomposeclient.utils.composeLogin
+import me.ckho.scriptcomposeclient.utils.listCronTasks
+import me.ckho.scriptcomposeclient.utils.splitClustersAndCreateNewTabs
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.awt.Color
 import java.awt.event.ActionEvent
+import java.awt.event.ItemEvent
 import java.awt.event.MouseEvent
 import java.lang.management.ManagementFactory
 import java.lang.management.OperatingSystemMXBean
 import java.net.CookieManager
 import java.net.CookiePolicy
-import javax.swing.JOptionPane
+import javax.swing.*
 import kotlin.system.exitProcess
 
 
 class MainApp(connReg: List<SimpleConnectionCfg>) : impMainFrame(connReg) {
     // must set cookiejar, or can't log in to script-compose
     private val cookieManager = CookieManager().apply { setCookiePolicy(CookiePolicy.ACCEPT_ALL) }
-    private val client: OkHttpClient = OkHttpClient().newBuilder().cookieJar(JavaNetCookieJar(cookieManager)).build()
+    val httpClient: OkHttpClient = OkHttpClient().newBuilder().cookieJar(JavaNetCookieJar(cookieManager)).build()
+
+    private var currentRangeSelect = "Last 1 Hour"
+    private var st_time = ""
+    private var ed_time = ""
 
     // override methods
     override fun impExitMenuItemActionPerformed(evt: ActionEvent?) {
@@ -46,8 +53,38 @@ class MainApp(connReg: List<SimpleConnectionCfg>) : impMainFrame(connReg) {
     }
 
     override fun impRefreshRegsButtonActionPerformed(evt: ActionEvent?) {
-        super.newTab("SB")
-        super.updateRowColor()
+        super.ProgressBar.isIndeterminate = true
+        val cfg = super.connReg[super.currentSelectedTreeNode]
+        if (cfg != null) {
+            while (ScriptsTabbedPane.tabCount > 0)
+                ScriptsTabbedPane.remove(0);
+
+            val done = composeLogin(cfg)
+            if (done) {
+                super.ProgressBar.isIndeterminate = false
+                ConnStatusLabel.text = "$currentSelectedTreeNode Connected"
+                ConnStatusLabel.foreground = Color(0, 204, 153)
+
+                val jsonStr = listCronTasks(cfg)
+                val scripts = JSONMapper.readValue(jsonStr, TaskListEntity::class.java)
+                splitClustersAndCreateNewTabs(scripts.tasks)
+
+                JOptionPane.showMessageDialog(
+                    this@MainApp,
+                    "Refresh done"
+                )
+            } else {
+                super.ProgressBar.isIndeterminate = false
+                ConnStatusLabel.text = "$currentSelectedTreeNode Connect Failed"
+                ConnStatusLabel.foreground = Color(196, 22, 7)
+            }
+        }
+    }
+
+    override fun impQuickRangeSelectComboBoxItemStateChanged(evt: ItemEvent?) {
+        if(evt!!.stateChange == ItemEvent.SELECTED) {
+            this.currentRangeSelect = QuickRangeSelectComboBox.selectedItem as String
+        }
     }
 
     override fun treeMouseClicked(evt: MouseEvent?) {
@@ -63,7 +100,9 @@ class MainApp(connReg: List<SimpleConnectionCfg>) : impMainFrame(connReg) {
                         ConnStatusLabel.text = "$currentSelectedTreeNode Connected"
                         ConnStatusLabel.foreground = Color(0, 204, 153)
 
-                        listCronTasks(cfg)
+                        val jsonStr = listCronTasks(cfg)
+                        val scripts = JSONMapper.readValue(jsonStr, TaskListEntity::class.java)
+                        splitClustersAndCreateNewTabs(scripts.tasks)
                     } else {
                         super.ProgressBar.isIndeterminate = false
                         ConnStatusLabel.text = "$currentSelectedTreeNode Connect Failed"
@@ -78,36 +117,35 @@ class MainApp(connReg: List<SimpleConnectionCfg>) : impMainFrame(connReg) {
         }
     }
 
+    fun newTab(title: String, data: Array<Array<String>>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val scriptsScrollPane = JScrollPane()
+            scriptsScrollPane.border = BorderFactory.createCompoundBorder()
+            ScriptsTabbedPane.addTab(title, scriptsScrollPane)
 
-    // logic
-    private fun composeLogin(cfg: SimpleConnectionCfg): Boolean {
+            val tableResult = JTable()
+            tableResult.rowHeight = 30
+            tableResult.showVerticalLines = true
+            tableResult.model = buildSearchResultModel(data)
+            tableResult.removeColumn(tableResult.columnModel.getColumn(0))
+            // hide last column
+            // hide last column
+            tableResult.removeColumn(tableResult.columnModel.getColumn(5))
 
-        val reqPayload = FormBody.Builder()
-            .add("username", cfg.username)
-            .add("password", cfg.password)
-            .build()
-        val req = Request.Builder()
-            .url(cfg.url + "/login")
-            .post(reqPayload)
-            .build()
-        val response = client.newCall(req).execute()
-        val homePage = response.body!!.string()
-        return "Welcome to use Scripts Composer" in homePage
-    }
+            val selectionModel = tableResult.selectionModel
+            selectionModel.addListSelectionListener { e ->
+                // make it not emit event twice
+                if (!e.valueIsAdjusting) {
+                    // due to fifth column hidded, should get data from model not the table!!
+                    currentSelectTaskHash = tableResult.model.getValueAt(tableResult.selectedRow, 5).toString()
+                }
+            }
 
-    private fun listCronTasks(cfg: SimpleConnectionCfg) {
-        val urlParams = (cfg.url + "/tasks/allTasks/byType").toHttpUrl().newBuilder()
-            .addQueryParameter("type", "cron")
-            .build()
-        print(urlParams)
+            tableResult.autoResizeMode = JTable.AUTO_RESIZE_ALL_COLUMNS
+            tableResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
 
-        val req = Request.Builder()
-            .url(urlParams)
-            .get()
-            .build()
-        val response = client.newCall(req).execute()
-        val data = response.body!!.string()
-        print(data)
+            scriptsScrollPane.setViewportView(tableResult)
+        }
     }
 }
 
