@@ -1,5 +1,8 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+    id 'application'
+    id 'distribution'
+    id 'edu.sc.seis.launch4j' version '2.5.3'
 }
 
 group = 'me.ckhoidea'
@@ -7,7 +10,23 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
+}
+
+mainClassName = "MainKt"
+
+application {
+    mainClass = 'MainKt'
+}
+
+launch4j {
+    // when use openjdk 11, you dont have jre, so preferJdk
+    // if you use azul or adopt, you can choose jre
+    jdkPreference = 'preferJre'
+    // just place a jre folder with launch4j generated exe in the same level
+    bundledJrePath = 'jre'
+    bundledJre64Bit = true
+    mainClassName = 'MainKt'
+    icon = "${projectDir}/src/main/resources/logo.ico"
 }
 
 dependencies {
@@ -30,9 +49,25 @@ test {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = '1.8'
+    kotlinOptions.jvmTarget = '11'
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = '1.8'
+    kotlinOptions.jvmTarget = '11'
+}
+
+// create fatjar
+tasks.register('uberJar', Jar) {
+    archiveClassifier = 'uber'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.output
+
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
 }

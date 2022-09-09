@@ -1,4 +1,4 @@
-package me.ckho.scriptcomposeclient.utils
+package me.ckhoidea.scriptcomposeclient.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
@@ -44,8 +44,12 @@ fun now2str(): String {
     return formatter.format(now)
 }
 
+fun now2timestamp(): Long {
+    return date2timestamp(now2str())
+}
+
 fun beforeNow2timestamp(hoursBack: String): Long{
-    val enum = listOf("Not Selected", "Last 1 Hour", "Last 6 Hours", "Last 12 Hours", "Last 1 Day", "Last 3 Days", "Last Week")
+    val enum = listOf("Last 1 Hour", "Last 6 Hours", "Last 12 Hours", "Last 1 Day", "Last 3 Days", "Last Week")
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     if (hoursBack !in enum){
         return -1L
@@ -53,7 +57,6 @@ fun beforeNow2timestamp(hoursBack: String): Long{
         val now = LocalDateTime.now()
         // by default is 1 hour back
         val hoursBackTime = when(hoursBack){
-            "Not Selected" -> now.minusHours(1)
             "Last 1 Hour" -> now.minusHours(1)
             "Last 6 Hours" -> now.minusHours(6)
             "Last 12 Hours" -> now.minusHours(12)

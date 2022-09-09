@@ -1,4 +1,4 @@
-package me.ckho.scriptcomposeclient.entity
+package me.ckhoidea.scriptcomposeclient.entity
 
 import me.ckho.USwingGUI.entity.SimpleConnectionCfg
 

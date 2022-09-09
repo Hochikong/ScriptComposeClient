@@ -1,7 +1,7 @@
 import com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme
-import me.ckho.scriptcomposeclient.MainApp
-import me.ckho.scriptcomposeclient.entity.ComposeServicesEntity
-import me.ckho.scriptcomposeclient.utils.YAMLLoader
+import me.ckhoidea.scriptcomposeclient.MainApp
+import me.ckhoidea.scriptcomposeclient.entity.ComposeServicesEntity
+import me.ckhoidea.scriptcomposeclient.utils.YAMLLoader
 import java.awt.EventQueue
 import java.io.File
 

@@ -31,7 +31,10 @@ public class TableRowsRenderer extends DefaultTableCellRenderer {
         String hash = (String) table.getModel().getValueAt(row, 0);
         if ("FAILED".equals(hash)) {
             super.setForeground(new Color(214, 51, 57));
-        } else {
+        }else{
+            super.setForeground(new Color(31, 186, 77));
+        }
+        if ("SUCCEED".equals(hash)) {
             super.setForeground(new Color(31, 186, 77));
         }
         return c;
