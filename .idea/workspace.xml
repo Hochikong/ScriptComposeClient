@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="568afb52-56f5-4932-ad50-bc4308471de2" name="Changes" comment="start logic code">
-      <change afterPath="$PROJECT_DIR$/cfg/services.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/ckho/scriptcomposeclient/entity/TaskBriefEntity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/ckho/scriptcomposeclient/entity/TaskListEntity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/ckho/scriptcomposeclient/utils/NetworkExtensions.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/me/ckho/scriptcomposeclient/utils/UtilExtensions.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/add.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/angle-double-left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/angle-double-right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/angle-left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/angle-right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/close window.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/collapseall.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/delete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/expandall.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/mininum window.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/resize window.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/16pix/sync-alt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/20pix/filter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/20pix/getlog.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/20pix/refresh.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/20pix/view.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/32pix/angle-double-left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/ico/32pix/angle-double-right.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/ckho/USwingGUI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/ckho/USwingGUI/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/ckho/USwingGUI/codegen/impMainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/ckho/USwingGUI/codegen/impMainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/ckho/scriptcomposeclient/MainApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/ckho/scriptcomposeclient/MainApp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/ckho/scriptcomposeclient/utils/Tools.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/ckho/scriptcomposeclient/utils/Tools.kt" afterDir="false" />
-    </list>
+    <list default="true" id="568afb52-56f5-4932-ad50-bc4308471de2" name="Changes" comment="update lots" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,6 +25,7 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="Hochikong &lt;ckhoidea@hotmail.com&gt;" />
         <option value="Hochikong &lt;ckhoidea@hotmai.com&gt;" />
       </list>
     </option>
@@ -127,7 +98,7 @@
       <workItem from="1662398571322" duration="4000" />
       <workItem from="1662653594289" duration="13985000" />
       <workItem from="1662693288056" duration="509000" />
-      <workItem from="1662696073815" duration="7160000" />
+      <workItem from="1662696073815" duration="7240000" />
     </task>
     <task id="LOCAL-00001" summary="start logic code">
       <created>1662667251726</created>
@@ -136,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662667251726</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="update lots">
+      <created>1662707352251</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1662707352251</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,9 +135,9 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="start logic code" />
-    <option name="LAST_COMMIT_MESSAGE" value="start logic code" />
+    <MESSAGE value="update lots" />
+    <option name="LAST_COMMIT_MESSAGE" value="update lots" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>
