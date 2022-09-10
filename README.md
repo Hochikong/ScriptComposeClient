@@ -12,7 +12,7 @@ My GUI client for Script-Compose, is an alternative log viewer and analyzer that
 
 1. Download a release from github releases.
 
-2. Unzip the .zip file, modify the **keyword.json** in cfg folder to add keywords for analyzer. Modify the **services.yaml** to add [ScriptCompose]([GitHub - Hochikong/ScriptsCompose: Simple scripts compose and executor](https://github.com/Hochikong/ScriptsCompose)) service connection params.
+2. Unzip the .zip file, modify the **keyword.json** in cfg folder to add keywords for analyzer. Modify the **services.yaml** to add ScriptCompose ([GitHub - Hochikong/ScriptsCompose: Simple scripts compose and executor](https://github.com/Hochikong/ScriptsCompose)) service connection params.
 
 3. Double click the **ScriptComposeClient.exe** to launch the program.
 
