@@ -12,6 +12,7 @@ import me.ckhoidea.scriptcomposeclient.utils.*
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import java.awt.Color
+import java.awt.Image
 import java.awt.event.ActionEvent
 import java.awt.event.ItemEvent
 import java.awt.event.MouseEvent
@@ -25,7 +26,7 @@ import javax.swing.*
 import kotlin.system.exitProcess
 
 
-class MainApp(connReg: List<SimpleConnectionCfg>) : impMainFrame(connReg, null) {
+class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(connReg, icon) {
     init {
         super.AnalyzeFilterLogsButton.isEnabled = false
         super.TaskDetailOverviewButton.isEnabled = false

@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="568afb52-56f5-4932-ad50-bc4308471de2" name="Changes" comment="update readme" />
+    <list default="true" id="568afb52-56f5-4932-ad50-bc4308471de2" name="Changes" comment="update readme">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/ckhoidea/scriptcomposeclient/MainApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/ckhoidea/scriptcomposeclient/MainApp.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,7 +114,7 @@
       <recent name="me.ckho.scriptcomposeclient" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.ScriptComposeClient [createAllExecutables]">
+  <component name="RunManager" selected="Kotlin.MainKt">
     <configuration name="ScriptComposeClient [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -204,8 +208,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.ScriptComposeClient [createAllExecutables]" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.ScriptComposeClient [createAllExecutables]" />
         <item itemvalue="Gradle.ScriptComposeClient [clean]" />
         <item itemvalue="Gradle.ScriptComposeClient [uberJar]" />
         <item itemvalue="Gradle.ScriptComposeClient [jar]" />
@@ -228,6 +232,8 @@
       <workItem from="1662757773877" duration="1283000" />
       <workItem from="1662759135904" duration="585000" />
       <workItem from="1662800251450" duration="2432000" />
+      <workItem from="1662803393311" duration="38000" />
+      <workItem from="1662807582637" duration="1341000" />
     </task>
     <task id="LOCAL-00001" summary="start logic code">
       <created>1662667251726</created>
@@ -257,7 +263,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662803290929</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="update readme">
+      <created>1662803415391</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1662803415391</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -4,11 +4,13 @@ import me.ckhoidea.scriptcomposeclient.entity.ComposeServicesEntity
 import me.ckhoidea.scriptcomposeclient.utils.YAMLLoader
 import java.awt.EventQueue
 import java.io.File
+import javax.swing.ImageIcon
 
 fun main() {
     FlatLightFlatIJTheme.setup()
     val yamlCfg = YAMLLoader.readValue(File("./cfg/services.yaml"), ComposeServicesEntity::class.java)
-    val app = MainApp(yamlCfg.services)
+    val url = object {}::class.java.getResource("/logo.png")
+    val app = MainApp(yamlCfg.services, ImageIcon(url, "").image)
     app.setLocationRelativeTo(null)
     EventQueue.invokeLater { app.isVisible = true }
 }
