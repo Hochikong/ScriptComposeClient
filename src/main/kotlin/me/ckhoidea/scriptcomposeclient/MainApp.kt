@@ -371,6 +371,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                         // due to fifth column hidded, should get data from model not the table!!
                         currentSelectTaskHash = tableResult.model.getValueAt(tableResult.selectedRow, 6).toString()
                         availableScriptsLogs = mutableListOf("Empty")
+                        currentSelectedLog = TaskBriefEntity()
                         java.awt.EventQueue.invokeLater {
                             refreshScriptsLogsDropdown()
                         }

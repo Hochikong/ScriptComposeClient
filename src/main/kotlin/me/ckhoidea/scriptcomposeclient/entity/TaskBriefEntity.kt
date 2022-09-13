@@ -10,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 //}
 data class TaskBriefEntity(
     @JsonProperty("task_hash")
-    val taskHash: String,
-    val duration: String,
+    val taskHash: String = "",
+    val duration: String = "Empty",
     @JsonProperty("log_hash")
-    val logHash: String,
-    val status: String
+    val logHash: String = "",
+    val status: String = ""
 )
