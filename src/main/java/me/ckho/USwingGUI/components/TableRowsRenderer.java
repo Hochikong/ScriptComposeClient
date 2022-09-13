@@ -10,7 +10,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
 /**
- *
  * @author ckhoi
  */
 public class TableRowsRenderer extends DefaultTableCellRenderer {
@@ -28,15 +27,19 @@ public class TableRowsRenderer extends DefaultTableCellRenderer {
 //        }
 
 // Change row color
-        String hash = (String) table.getModel().getValueAt(row, 0);
-        if ("FAILED".equals(hash)) {
+        String status = (String) table.getModel().getValueAt(row, 0);
+        if ("FAILED".equals(status)) {
             super.setForeground(new Color(214, 51, 57));
+            return c;
+        } else if ("UNDEFINED".equals(status)) {
+            super.setForeground(new Color(214, 190, 51));
+            return c;
+        } else if ("SUCCEED".equals(status)) {
+            super.setForeground(new Color(31, 186, 77));
+            return c;
         }else{
             super.setForeground(new Color(31, 186, 77));
+            return c;
         }
-        if ("SUCCEED".equals(hash)) {
-            super.setForeground(new Color(31, 186, 77));
-        }
-        return c;
     }
 }

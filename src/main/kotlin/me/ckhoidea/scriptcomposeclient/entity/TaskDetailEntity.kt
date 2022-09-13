@@ -31,10 +31,18 @@ data class TaskDetailEntity(
         return arrayOf("NONE", groupName, command, jobType, interval, startAt, taskHash)
     }
 
-    fun toArrayForJTable(badHash: List<String>): Array<String> {
-        return if (taskHash in badHash){
+    fun toArrayForJTable(
+        badHash: List<String>,
+        undefinedHash: List<String> = listOf(),
+        successHash: List<String> = listOf()
+    ): Array<String> {
+        return if (taskHash in badHash) {
             arrayOf("FAILED", groupName, command, jobType, interval, startAt, taskHash)
-        }else{
+        } else if (taskHash in undefinedHash) {
+            arrayOf("UNDEFINED", groupName, command, jobType, interval, startAt, taskHash)
+        } else if (taskHash in successHash) {
+            arrayOf("SUCCEED", groupName, command, jobType, interval, startAt, taskHash)
+        } else {
             arrayOf("NONE", groupName, command, jobType, interval, startAt, taskHash)
         }
     }

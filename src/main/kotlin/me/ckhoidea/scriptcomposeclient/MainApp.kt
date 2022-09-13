@@ -94,17 +94,18 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                     super.ProgressBar.isIndeterminate = true
                 })
                 var jsonStr = ""
-                try{
+                try {
                     jsonStr = fetchLog(cfg, currentSelectedLog.logHash)
-                }catch (e: UninitializedPropertyAccessException){
+                } catch (e: UninitializedPropertyAccessException) {
                 }
                 java.awt.EventQueue.invokeLater {
                     super.ProgressBar.isIndeterminate = false
                 }
-                try{
+                try {
                     val logContent = JSONMapper.readValue(jsonStr, TaskLogEntity::class.java)
                     val dialog = SimpleEnlargePreview(this@MainApp, false)
-                    val taskSelected = allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }.toList()[0]
+                    val taskSelected =
+                        allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }.toList()[0]
                     dialog.updateTitle("Task: ${taskSelected.command}")
                     dialog.setPreview(
                         "<html><h3></h3>Log Hash: ${currentSelectedLog.logHash}<br><div>${
@@ -117,7 +118,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                     dialog.setLocationRelativeTo(null)
 
                     dialog.isVisible = true
-                }catch (e: JsonMappingException){
+                } catch (e: JsonMappingException) {
                     JOptionPane.showMessageDialog(
                         this@MainApp,
                         "No such log details"
@@ -183,7 +184,8 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                     allAvailableTaskDetails = scripts.tasks
 
                     val whichTaskHashHasBadLog = mutableListOf<String>()
-
+                    val whichTaskHashHasUndefinedLog = mutableListOf<String>()
+                    val whichTaskHashHasSucceedLog = mutableListOf<String>()
 
                     for (s in scripts.tasks) {
                         val brs = fetchLogBriefsWrapper(cfg, s.taskHash).brief
@@ -198,9 +200,26 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                                     whichTaskHashHasBadLog.add(s.taskHash)
                                 }
                             }
+                            for (undWord in keyWords.undefined) {
+                                if (undWord in logContent) {
+                                    whichTaskHashHasUndefinedLog.add(s.taskHash)
+                                }
+                            }
+                            for (sucWord in keyWords.succeed) {
+                                if (sucWord in logContent) {
+                                    whichTaskHashHasSucceedLog.add(s.taskHash)
+                                }
+                            }
                         }
                     }
-                    splitClustersAndCreateNewTabs(scripts.tasks, whichTaskHashHasBadLog.toSet().toList())
+
+                    splitClustersAndCreateNewTabs(
+                        scripts.tasks,
+                        true,
+                        whichTaskHashHasBadLog.toSet().toList(),
+                        whichTaskHashHasUndefinedLog.toSet().toList(),
+                        whichTaskHashHasSucceedLog.toSet().toList()
+                    )
                     java.awt.EventQueue.invokeLater {
                         updateRowColor()
                         super.ProgressBar.isIndeterminate = false
@@ -222,8 +241,10 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
             val taskDetail = allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }
             val dialog = SimpleEnlargePreview(this@MainApp, false)
             dialog.updateTitle(taskDetail[0].command)
-            dialog.setPreview("<html><h3>URL: ${cfg.url}/taskDetails?taskHash=${taskDetail[0].taskHash}</h3>" +
-                    "<br><div>${taskDetail[0].toString().replace("\n", "<br>")}</div></html>")
+            dialog.setPreview(
+                "<html><h3>URL: ${cfg.url}/taskDetails?taskHash=${taskDetail[0].taskHash}</h3>" +
+                        "<br><div>${taskDetail[0].toString().replace("\n", "<br>")}</div></html>"
+            )
             dialog.setLocationRelativeTo(null)
 
             dialog.isVisible = true
