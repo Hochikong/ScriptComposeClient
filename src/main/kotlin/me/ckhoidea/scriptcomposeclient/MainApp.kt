@@ -1,5 +1,6 @@
 package me.ckhoidea.scriptcomposeclient
 
+import com.fasterxml.jackson.databind.JsonMappingException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -92,26 +93,36 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                 java.awt.EventQueue.invokeLater(kotlinx.coroutines.Runnable {
                     super.ProgressBar.isIndeterminate = true
                 })
-                val jsonStr = fetchLog(cfg, currentSelectedLog.logHash)
-                val logContent = JSONMapper.readValue(jsonStr, TaskLogEntity::class.java)
+                var jsonStr = ""
+                try{
+                    jsonStr = fetchLog(cfg, currentSelectedLog.logHash)
+                }catch (e: UninitializedPropertyAccessException){
+                }
                 java.awt.EventQueue.invokeLater {
                     super.ProgressBar.isIndeterminate = false
                 }
+                try{
+                    val logContent = JSONMapper.readValue(jsonStr, TaskLogEntity::class.java)
+                    val dialog = SimpleEnlargePreview(this@MainApp, false)
+                    val taskSelected = allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }.toList()[0]
+                    dialog.updateTitle("Task: ${taskSelected.command}")
+                    dialog.setPreview(
+                        "<html><h3></h3>Log Hash: ${currentSelectedLog.logHash}<br><div>${
+                            logContent.log.replace(
+                                "\n",
+                                "<br>"
+                            )
+                        }</div></html>"
+                    )
+                    dialog.setLocationRelativeTo(null)
 
-                val dialog = SimpleEnlargePreview(this@MainApp, false)
-                val taskSelected = allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }.toList()[0]
-                dialog.updateTitle("Task: ${taskSelected.command}")
-                dialog.setPreview(
-                    "<html><h3></h3>Log Hash: ${currentSelectedLog.logHash}<br><div>${
-                        logContent.log.replace(
-                            "\n",
-                            "<br>"
-                        )
-                    }</div></html>"
-                )
-                dialog.setLocationRelativeTo(null)
-
-                dialog.isVisible = true
+                    dialog.isVisible = true
+                }catch (e: JsonMappingException){
+                    JOptionPane.showMessageDialog(
+                        this@MainApp,
+                        "No such log details"
+                    )
+                }
             }
         }
 
@@ -206,11 +217,13 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
     }
 
     override fun impTaskDetailOverviewButtonActionPerformed(evt: ActionEvent?) {
+        val cfg = super.connReg[super.currentSelectedTreeNode]!!
         java.awt.EventQueue.invokeLater {
             val taskDetail = allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }
             val dialog = SimpleEnlargePreview(this@MainApp, false)
             dialog.updateTitle(taskDetail[0].command)
-            dialog.setPreview("<html><div>${taskDetail.toString().replace("\n", "<br>")}</div></html>")
+            dialog.setPreview("<html><h3>URL: ${cfg.url}/taskDetails?taskHash=${taskDetail[0].taskHash}</h3>" +
+                    "<br><div>${taskDetail[0].toString().replace("\n", "<br>")}</div></html>")
             dialog.setLocationRelativeTo(null)
 
             dialog.isVisible = true
@@ -238,6 +251,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                         availableScriptsLogs.add(b.duration)
                     }
                 }
+                availableScriptsLogsStorage.reverse()
                 availableScriptsLogs.reverse()
 
                 java.awt.EventQueue.invokeLater {
@@ -356,6 +370,10 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                     if (!e.valueIsAdjusting) {
                         // due to fifth column hidded, should get data from model not the table!!
                         currentSelectTaskHash = tableResult.model.getValueAt(tableResult.selectedRow, 6).toString()
+                        availableScriptsLogs = mutableListOf("Empty")
+                        java.awt.EventQueue.invokeLater {
+                            refreshScriptsLogsDropdown()
+                        }
                     }
                 }
 
