@@ -24,6 +24,7 @@ import java.net.CookieManager
 import java.net.CookiePolicy
 import java.time.format.DateTimeParseException
 import javax.swing.*
+import javax.swing.event.ChangeEvent
 import kotlin.system.exitProcess
 
 
@@ -80,6 +81,18 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
             QuickRangeSelectComboBox.selectedIndex = 0
             currentRangeSelect = "Last 1 Hour"
         })
+    }
+
+    override fun impScriptsTabbedPaneStateChanged(evt: ChangeEvent?) {
+        java.awt.EventQueue.invokeLater {
+            val count = ScriptsTabbedPane.tabCount
+            for (i in 0 until count) {
+                val scrollPane = ScriptsTabbedPane.getComponentAt(i) as JScrollPane
+                val viewport = scrollPane.viewport
+                val tb = viewport.view as JTable
+                tb.selectionModel.clearSelection()
+            }
+        }
     }
 
     override fun impLogSelectComboBoxItemStateChanged(evt: ItemEvent?) {
@@ -390,7 +403,11 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                     // make it not emit event twice
                     if (!e.valueIsAdjusting) {
                         // due to fifth column hidded, should get data from model not the table!!
-                        currentSelectTaskHash = tableResult.model.getValueAt(tableResult.selectedRow, 6).toString()
+                        currentSelectTaskHash = try{
+                            tableResult.model.getValueAt(tableResult.selectedRow, 6).toString()
+                        }catch (e: ArrayIndexOutOfBoundsException){
+                            ""
+                        }
                         availableScriptsLogs = mutableListOf("Empty")
                         currentSelectedLog = TaskBriefEntity()
                         java.awt.EventQueue.invokeLater {
