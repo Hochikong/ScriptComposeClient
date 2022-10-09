@@ -236,6 +236,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                         whichTaskHashHasUndefinedLog.toSet().toList(),
                         whichTaskHashHasSucceedLog.toSet().toList()
                     )
+                    Thread.sleep(1000)
                     java.awt.EventQueue.invokeLater {
                         updateRowColor()
                         super.ProgressBar.isIndeterminate = false
