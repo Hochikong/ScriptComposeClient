@@ -32,7 +32,7 @@ public class TableRowsRenderer extends DefaultTableCellRenderer {
             super.setForeground(new Color(214, 51, 57));
             return c;
         } else if ("UNDEFINED".equals(status)) {
-            super.setForeground(new Color(214, 190, 51));
+            super.setForeground(new Color(214, 122, 51));
             return c;
         } else if ("SUCCEED".equals(status)) {
             super.setForeground(new Color(31, 186, 77));

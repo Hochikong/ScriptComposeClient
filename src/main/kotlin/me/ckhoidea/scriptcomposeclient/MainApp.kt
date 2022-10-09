@@ -203,8 +203,11 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                     for (s in scripts.tasks) {
                         val brs = fetchLogBriefsWrapper(cfg, s.taskHash).brief
                         if (brs.isEmpty()) {
+                            // if not run, set as undefined
+                            whichTaskHashHasUndefinedLog.add(s.taskHash)
                             continue
                         } else {
+                            // check the latest one' status
                             val br = brs.last()
                             val jsonStrLog = fetchLog(cfg, br.logHash)
                             val logContent = JSONMapper.readValue(jsonStrLog, TaskLogEntity::class.java).log
