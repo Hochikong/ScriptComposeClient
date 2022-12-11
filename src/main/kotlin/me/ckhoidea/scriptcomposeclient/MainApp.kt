@@ -35,6 +35,11 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
         super.FetchLogBriefButton.isEnabled = false
         super.ViewLogButton.isEnabled = false
         super.RefreshRegsButton.isEnabled = false
+        val os = System.getProperty("os.name")
+        println(os)
+        if (os.lowercase() == "linux"){
+            getRootPane().windowDecorationStyle = JRootPane.NONE
+        }
     }
 
     // must set cookiejar, or can't log in to script-compose
