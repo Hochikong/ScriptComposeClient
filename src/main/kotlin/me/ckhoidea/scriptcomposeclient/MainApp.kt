@@ -66,6 +66,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
     }
 
     override fun impAboutMenuItemActionPerformed(evt: ActionEvent?) {
+        val buildVersion = "20221212 V1.0.2"
         val system: OperatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean()
         val runtime = ManagementFactory.getRuntimeMXBean()
         val info = "OS: ${system.name} \nArch: ${system.arch} " +
@@ -73,7 +74,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                 "\nSpec: ${runtime.specVersion} \nVersion: ${runtime.vmVersion}"
         JOptionPane.showMessageDialog(
             this,
-            "Script Compose Client \nckhoidea@hotmail.com \n\n$info",
+            "Script Compose Client \nBuild $buildVersion\nckhoidea@hotmail.com \n\n$info",
             "About",
             JOptionPane.INFORMATION_MESSAGE
         )
