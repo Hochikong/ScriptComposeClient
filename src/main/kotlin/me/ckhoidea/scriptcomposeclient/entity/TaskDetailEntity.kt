@@ -26,8 +26,8 @@ data class TaskDetailEntity(
     val startAt: String,
     @JsonProperty("task_hash")
     val taskHash: String,
-    val runWithTempBashScript: String,
-    val tmpBashWorkingDir: String
+    val runWithTempBashScript: String = "",
+    val tmpBashWorkingDir: String = ""
 ) {
     fun toArrayForJTable(): Array<String> {
         return arrayOf("NONE", groupName, command, jobType, interval, startAt, taskHash)
