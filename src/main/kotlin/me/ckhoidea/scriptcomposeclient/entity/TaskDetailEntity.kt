@@ -25,7 +25,9 @@ data class TaskDetailEntity(
     @JsonProperty("start_at")
     val startAt: String,
     @JsonProperty("task_hash")
-    val taskHash: String
+    val taskHash: String,
+    val runWithTempBashScript: String,
+    val tmpBashWorkingDir: String
 ) {
     fun toArrayForJTable(): Array<String> {
         return arrayOf("NONE", groupName, command, jobType, interval, startAt, taskHash)
@@ -49,15 +51,17 @@ data class TaskDetailEntity(
 
     override fun toString(): String {
         return "TaskDetailEntity\n" +
-                "(\n" +
-                "cluster='$cluster', \n" +
-                "groupName='$groupName', \n" +
-                "jobType='$jobType', \n" +
-                "interval='$interval',\n" +
-                " command='$command',\n" +
-                " workingDir='$workingDir',\n" +
-                " startAt='$startAt', \n" +
-                "taskHash='$taskHash'\n" +
+                "(\n\n" +
+                "cluster='$cluster', \n\n" +
+                "groupName='$groupName', \n\n" +
+                "jobType='$jobType', \n\n" +
+                "interval='$interval',\n\n" +
+                "command='$command',\n\n" +
+                "workingDir='$workingDir',\n\n" +
+                "startAt='$startAt', \n\n" +
+                "taskHash='$taskHash'\n\n" +
+                "run_with_temp_bash_script='$runWithTempBashScript'\n\n" +
+                "tmp_bash_working_dir='$tmpBashWorkingDir'\n\n" +
                 ")\n"
     }
 

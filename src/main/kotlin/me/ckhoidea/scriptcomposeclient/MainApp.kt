@@ -36,7 +36,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
         super.ViewLogButton.isEnabled = false
         super.RefreshRegsButton.isEnabled = false
         val os = System.getProperty("os.name")
-        println(os)
+//        println(os)
         if (os.lowercase() == "linux"){
             getRootPane().windowDecorationStyle = JRootPane.NONE
         }
