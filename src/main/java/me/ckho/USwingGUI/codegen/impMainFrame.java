@@ -7,6 +7,7 @@ package me.ckho.USwingGUI.codegen;
 
 import com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme;
 import com.formdev.flatlaf.ui.FlatToolBarBorder;
+import me.ckho.USwingGUI.components.CustomMutableTreeNode;
 import me.ckho.USwingGUI.components.QueryTable;
 import me.ckho.USwingGUI.components.TableRowsRenderer;
 import me.ckho.USwingGUI.components.VerticalTabComp;
@@ -23,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *
  * @author ckhoi
  */
 public class impMainFrame extends javax.swing.JFrame {
@@ -81,6 +81,7 @@ public class impMainFrame extends javax.swing.JFrame {
     protected javax.swing.JButton ViewLogButton;
     // controll vertical tab menu font size
     private Font OverrideUIFont = UIManager.getFont("defaultFont").deriveFont(14.0F);
+
     public impMainFrame(List<SimpleConnectionCfg> connReg, Image icon) {
         for (SimpleConnectionCfg cfg : connReg) {
             this.connReg.put(cfg.getName(), cfg);
@@ -185,7 +186,7 @@ public class impMainFrame extends javax.swing.JFrame {
         LogViewLabel.setText("Log View: ");
         MainToolBar.add(LogViewLabel);
 
-        LogSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empty" }));
+        LogSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Empty"}));
         LogSelectComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 LogSelectComboBoxItemStateChanged(evt);
@@ -244,18 +245,18 @@ public class impMainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout ComposePanelLayout = new javax.swing.GroupLayout(ComposePanel);
         ComposePanel.setLayout(ComposePanelLayout);
         ComposePanelLayout.setHorizontalGroup(
-            ComposePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ComposePanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(ComposeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                ComposePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(ComposePanelLayout.createSequentialGroup()
+                                .addGap(0, 0, 0)
+                                .addComponent(ComposeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                                .addGap(0, 0, 0))
         );
         ComposePanelLayout.setVerticalGroup(
-            ComposePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ComposePanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(ComposeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                ComposePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(ComposePanelLayout.createSequentialGroup()
+                                .addGap(0, 0, 0)
+                                .addComponent(ComposeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
+                                .addGap(0, 0, 0))
         );
 
         LeftTabbedPane.addTab("tab1", ComposePanel);
@@ -299,36 +300,36 @@ public class impMainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout QueryPanelLayout = new javax.swing.GroupLayout(QueryPanel);
         QueryPanel.setLayout(QueryPanelLayout);
         QueryPanelLayout.setHorizontalGroup(
-            QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(QueryPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(StTimeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(StTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(EdTimeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(EdTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(QuickRangeSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(ClearFilterButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(QueryPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(StTimeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(StTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(EdTimeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(EdTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(QuickRangeSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(ClearFilterButton)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         QueryPanelLayout.setVerticalGroup(
-            QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(QueryPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(EdTimeLabel)
-                        .addComponent(EdTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(QuickRangeSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ClearFilterButton))
-                    .addGroup(QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(StTimeLabel)
-                        .addComponent(StTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(QueryPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(EdTimeLabel)
+                                                .addComponent(EdTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(QuickRangeSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(ClearFilterButton))
+                                        .addGroup(QueryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(StTimeLabel)
+                                                .addComponent(StTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         RightSplitPane.setRightComponent(QueryPanel);
@@ -342,26 +343,26 @@ public class impMainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout BottomPanelLayout = new javax.swing.GroupLayout(BottomPanel);
         BottomPanel.setLayout(BottomPanelLayout);
         BottomPanelLayout.setHorizontalGroup(
-            BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BottomPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(StatusLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ConnStatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(BottomPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(StatusLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ConnStatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
         BottomPanelLayout.setVerticalGroup(
-            BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BottomPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ConnStatusLabel))
-                    .addComponent(ProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(BottomPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(ConnStatusLabel))
+                                        .addComponent(ProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         FileMenu.setText("File");
@@ -393,20 +394,20 @@ public class impMainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ToolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(BottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(MainSplitPane)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ToolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(MainSplitPane)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(ToolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(MainSplitPane)
-                .addGap(0, 0, 0)
-                .addComponent(BottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(ToolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(MainSplitPane)
+                                .addGap(0, 0, 0)
+                                .addComponent(BottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0))
         );
 
         pack();
@@ -537,6 +538,8 @@ public class impMainFrame extends javax.swing.JFrame {
         for (String key : connReg.keySet()) {
             DefaultMutableTreeNode services = new DefaultMutableTreeNode(key);
             topTree.add(services);
+            services.add(new CustomMutableTreeNode("CRON Tasks", key + "_++cron"));
+            services.add(new CustomMutableTreeNode("OneTime Tasks", key + "_++one"));
         }
         JTree tree = new JTree(topTree);
         tree.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -547,7 +550,13 @@ public class impMainFrame extends javax.swing.JFrame {
         tree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                currentSelectedTreeNode = selectedNode.getUserObject().toString();
+                String subNodeOrNot = selectedNode.getUserObject().toString();
+                if (subNodeOrNot.equals("CRON Tasks") || subNodeOrNot.equals("OneTime Tasks")) {
+                    CustomMutableTreeNode selectedCustomNode = (CustomMutableTreeNode) tree.getLastSelectedPathComponent();
+                    currentSelectedTreeNode = selectedCustomNode.getsV();
+                } else {
+                    currentSelectedTreeNode = selectedNode.getUserObject().toString();
+                }
             }
         });
         return tree;
@@ -559,17 +568,37 @@ public class impMainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //<Auto-Generate-Result>
-    protected void impRefreshRegsButtonActionPerformed(java.awt.event.ActionEvent evt){}
-    protected void impAboutMenuItemActionPerformed(java.awt.event.ActionEvent evt){}
-    protected void impExitMenuItemActionPerformed(java.awt.event.ActionEvent evt){}
-    protected void impAnalyzeFilterLogsButtonActionPerformed(java.awt.event.ActionEvent evt){}
-    protected void impViewLogButtonActionPerformed(java.awt.event.ActionEvent evt){}
-    protected void impScriptsTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt){}
-    protected void impClearFilterButtonActionPerformed(java.awt.event.ActionEvent evt){}
-    protected void impLogSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt){}
-    protected void impQuickRangeSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt){}
+    protected void impRefreshRegsButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
-    protected void impFetchLogBriefButtonActionPerformed(java.awt.event.ActionEvent evt){}
-    protected void impTaskDetailOverviewButtonActionPerformed(java.awt.event.ActionEvent evt){}
+    protected void impAboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+    }
+
+    protected void impExitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+    }
+
+    protected void impAnalyzeFilterLogsButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    }
+
+    protected void impViewLogButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    }
+
+    protected void impScriptsTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {
+    }
+
+    protected void impClearFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    }
+
+    protected void impLogSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {
+    }
+
+    protected void impQuickRangeSelectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {
+    }
+
+    protected void impFetchLogBriefButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    }
+
+    protected void impTaskDetailOverviewButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    }
     //</Auto-Generate-Result>
 }

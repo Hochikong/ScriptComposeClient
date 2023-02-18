@@ -37,7 +37,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
         super.RefreshRegsButton.isEnabled = false
         val os = System.getProperty("os.name")
 //        println(os)
-        if (os.lowercase() == "linux"){
+        if (os.lowercase() == "linux") {
             getRootPane().windowDecorationStyle = JRootPane.NONE
         }
     }
@@ -348,7 +348,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                 java.awt.EventQueue.invokeLater {
                     super.ProgressBar.isIndeterminate = true
                 }
-                val cfg = super.connReg[super.currentSelectedTreeNode]!!
+                val cfg = super.connReg[super.currentSelectedTreeNode.replace("_++cron", "").replace("_++one", "")]!!
                 try {
                     val done = composeLogin(cfg)
                     if (done) {
@@ -359,17 +359,11 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                             ConnStatusLabel.foreground = Color(0, 204, 153)
                         }
 
-                        val jsonStr = listCronTasks(cfg)
-                        val scripts = JSONMapper.readValue(jsonStr, TasksEntity::class.java)
-                        allAvailableTaskDetails = scripts.tasks
-                        splitClustersAndCreateNewTabs(scripts.tasks)
-
-                        java.awt.EventQueue.invokeLater {
-                            super.AnalyzeFilterLogsButton.isEnabled = true
-                            super.TaskDetailOverviewButton.isEnabled = true
-                            super.FetchLogBriefButton.isEnabled = true
-                            super.ViewLogButton.isEnabled = true
-                            super.RefreshRegsButton.isEnabled = true
+                        // by default show all cron tasks
+                        when {
+                            currentSelectedTreeNode.endsWith("_++cron") -> this@MainApp.showCronTasks(cfg)
+                            currentSelectedTreeNode.endsWith("_++one") -> this@MainApp.showOneTimeTasks(cfg)
+                            else -> this@MainApp.showCronTasks(cfg)
                         }
 
                     } else {
@@ -390,6 +384,25 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                 }
             }
         }
+    }
+
+    private fun showCronTasks(cfg: SimpleConnectionCfg) {
+        val jsonStr = listCronTasks(cfg)
+        val scripts = JSONMapper.readValue(jsonStr, TasksEntity::class.java)
+        allAvailableTaskDetails = scripts.tasks
+        splitClustersAndCreateNewTabs(scripts.tasks)
+
+        java.awt.EventQueue.invokeLater {
+            super.AnalyzeFilterLogsButton.isEnabled = true
+            super.TaskDetailOverviewButton.isEnabled = true
+            super.FetchLogBriefButton.isEnabled = true
+            super.ViewLogButton.isEnabled = true
+            super.RefreshRegsButton.isEnabled = true
+        }
+    }
+
+    private fun showOneTimeTasks(cfg: SimpleConnectionCfg) {
+        // TODO
     }
 
     fun newTab(title: String, data: Array<Array<String>>) {
@@ -413,9 +426,9 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                     // make it not emit event twice
                     if (!e.valueIsAdjusting) {
                         // due to fifth column hidded, should get data from model not the table!!
-                        currentSelectTaskHash = try{
+                        currentSelectTaskHash = try {
                             tableResult.model.getValueAt(tableResult.selectedRow, 6).toString()
-                        }catch (e: ArrayIndexOutOfBoundsException){
+                        } catch (e: ArrayIndexOutOfBoundsException) {
                             ""
                         }
                         availableScriptsLogs = mutableListOf("Empty")

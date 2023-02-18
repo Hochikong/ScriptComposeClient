@@ -8,7 +8,6 @@ package me.ckho.USwingGUI.entity;
 import java.util.Objects;
 
 /**
- *
  * @author ckhoi
  */
 public class SimpleConnectionCfg {
@@ -42,6 +41,14 @@ public class SimpleConnectionCfg {
 
     public String getName() {
         return name;
+    }
+
+    public String getCronSubName() {
+        return name + "_++cron";
+    }
+
+    public String getOneSubName() {
+        return name + "_++one";
     }
 
 
