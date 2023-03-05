@@ -150,9 +150,12 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
     }
 
 
+    /**
+     * Refresh all registered scripts
+     * */
     override fun impRefreshRegsButtonActionPerformed(evt: ActionEvent?) {
         super.ProgressBar.isIndeterminate = true
-        val cfg = super.connReg[super.currentSelectedTreeNode]
+        val cfg = super.connReg[super.currentSelectedTreeNode.replace("_++cron", "").replace("_++one", "")]
         if (cfg != null) {
             while (ScriptsTabbedPane.tabCount > 0)
                 ScriptsTabbedPane.remove(0)
@@ -160,13 +163,26 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
             val done = composeLogin(cfg)
             if (done) {
                 super.ProgressBar.isIndeterminate = false
-                ConnStatusLabel.text = "$currentSelectedTreeNode Connected"
+                ConnStatusLabel.text = "${
+                    currentSelectedTreeNode
+                        .replace("_++cron", "")
+                        .replace("_++one", "")
+                } Connected"
                 ConnStatusLabel.foreground = Color(0, 204, 153)
 
-                val jsonStr = listCronTasks(cfg)
-                val scripts = JSONMapper.readValue(jsonStr, TasksEntity::class.java)
-                allAvailableTaskDetails = scripts.tasks
-                splitClustersAndCreateNewTabs(scripts.tasks)
+                if (super.currentSelectedTreeNode.endsWith("_++cron")) {
+                    val jsonStr = listCronTasks(cfg)
+                    val scripts = JSONMapper.readValue(jsonStr, TasksEntity::class.java)
+                    allAvailableTaskDetails = scripts.tasks
+                    splitClustersAndCreateNewTabs(scripts.tasks)
+                } else if (super.currentSelectedTreeNode.endsWith("_++one")) {
+                    // TODO
+                } else {
+                    val jsonStr = listCronTasks(cfg)
+                    val scripts = JSONMapper.readValue(jsonStr, TasksEntity::class.java)
+                    allAvailableTaskDetails = scripts.tasks
+                    splitClustersAndCreateNewTabs(scripts.tasks)
+                }
 
                 JOptionPane.showMessageDialog(
                     this@MainApp,
@@ -174,7 +190,11 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                 )
             } else {
                 super.ProgressBar.isIndeterminate = false
-                ConnStatusLabel.text = "$currentSelectedTreeNode Connect Failed"
+                ConnStatusLabel.text = "${
+                    currentSelectedTreeNode
+                        .replace("_++cron", "")
+                        .replace("_++one", "")
+                } Connect Failed"
                 ConnStatusLabel.foreground = Color(196, 22, 7)
             }
         }

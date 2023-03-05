@@ -526,9 +526,12 @@ public class impMainFrame extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Double click to connect
+     * */
     protected void treeMouseClicked(java.awt.event.MouseEvent evt) {
         if (evt.getClickCount() == 2 && !evt.isConsumed() && currentSelectedTreeNode != "Compose Service") {
-            this.ConnStatusLabel.setText(this.currentSelectedTreeNode + " Connected");
+            this.ConnStatusLabel.setText(this.currentSelectedTreeNode.replace("_++cron", "").replace("_++one", "") + " Connected");
             this.ConnStatusLabel.setForeground(new Color(0, 204, 153));
         }
     }
