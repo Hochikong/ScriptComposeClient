@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.ckho.USwingGUI.codegen.impMainFrame
 import me.ckho.USwingGUI.components.HeaderRenderer
+import me.ckho.USwingGUI.components.TableRowsRendererNoColors
 import me.ckho.USwingGUI.dialog.SimpleEnlargePreview
 import me.ckho.USwingGUI.entity.SimpleConnectionCfg
 import me.ckhoidea.scriptcomposeclient.entity.*
@@ -443,6 +444,14 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
                 tableResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
 
                 scriptsScrollPane.setViewportView(tableResult)
+
+                // add tooltip text without rendering colors
+                val viewport = scriptsScrollPane.viewport
+                val tb = viewport.view as JTable
+                val tableRows = tb.rowCount
+                for (j in 0 until tableRows) {
+                    tb.setDefaultRenderer(String::class.java, TableRowsRendererNoColors())
+                }
             })
 
 

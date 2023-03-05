@@ -5,7 +5,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
+/**
+ * 表头渲染
+ * */
 public class HeaderRenderer implements TableCellRenderer {
+
 
     DefaultTableCellRenderer renderer;
 

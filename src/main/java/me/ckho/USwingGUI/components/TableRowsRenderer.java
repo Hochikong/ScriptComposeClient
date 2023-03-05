@@ -12,34 +12,33 @@ import java.awt.*;
 /**
  * @author ckhoi
  */
+
+/**
+ * Change rows' color by task status
+ * */
 public class TableRowsRenderer extends DefaultTableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-// Only change cell color
-//        TaskStatusEnum status = (TaskStatusEnum) value;
-//        if (value == TaskStatusEnum.FAILED) {
-//            super.setForeground(Color.red);
-//            
-//        }else{
-//            super.setForeground(Color.blue);
-//        }
-
+        JLabel ci = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        // add tooltip for long cmd scripts
+        ci.setToolTipText(ci.getText());
+//        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 // Change row color
         String status = (String) table.getModel().getValueAt(row, 0);
         if ("FAILED".equals(status)) {
             super.setForeground(new Color(214, 51, 57));
-            return c;
+            return ci;
         } else if ("UNDEFINED".equals(status)) {
             super.setForeground(new Color(214, 122, 51));
-            return c;
+            return ci;
         } else if ("SUCCEED".equals(status)) {
             super.setForeground(new Color(31, 186, 77));
-            return c;
+            return ci;
         }else{
             super.setForeground(new Color(31, 186, 77));
-            return c;
+            return ci;
         }
     }
 }
+
