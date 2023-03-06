@@ -67,7 +67,7 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
     }
 
     override fun impAboutMenuItemActionPerformed(evt: ActionEvent?) {
-        val buildVersion = "20221212 V1.0.2"
+        val buildVersion = "20230306 V1.0.4"
         val system: OperatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean()
         val runtime = ManagementFactory.getRuntimeMXBean()
         val info = "OS: ${system.name} \nArch: ${system.arch} " +
