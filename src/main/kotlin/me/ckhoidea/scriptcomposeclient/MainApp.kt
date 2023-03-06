@@ -109,40 +109,44 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
     override fun impViewLogButtonActionPerformed(evt: ActionEvent?) {
         if (currentSelectTaskHash.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
-                val cfg = super.connReg[super.currentSelectedTreeNode]!!
-                java.awt.EventQueue.invokeLater(kotlinx.coroutines.Runnable {
-                    super.ProgressBar.isIndeterminate = true
-                })
-                var jsonStr = ""
-                try {
-                    jsonStr = fetchLog(cfg, currentSelectedLog.logHash)
-                } catch (e: UninitializedPropertyAccessException) {
-                }
-                java.awt.EventQueue.invokeLater {
-                    super.ProgressBar.isIndeterminate = false
-                }
-                try {
-                    val logContent = JSONMapper.readValue(jsonStr, TaskLogEntity::class.java)
-                    val dialog = SimpleEnlargePreview(this@MainApp, false)
-                    val taskSelected =
-                        allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }.toList()[0]
-                    dialog.updateTitle("Task: ${taskSelected.command}")
-                    dialog.setPreview(
-                        "<html><h3></h3>Log Hash: ${currentSelectedLog.logHash}<br><div>${
-                            logContent.log.replace(
-                                "\n",
-                                "<br>"
-                            )
-                        }</div></html>"
-                    )
-                    dialog.setLocationRelativeTo(null)
+                if (!super.currentSelectedTreeNode.endsWith("_++one")) {
+                    val cfg = super.connReg[super.currentSelectedTreeNode.replace("_++cron", "")]!!
+                    java.awt.EventQueue.invokeLater(kotlinx.coroutines.Runnable {
+                        super.ProgressBar.isIndeterminate = true
+                    })
+                    var jsonStr = ""
+                    try {
+                        jsonStr = fetchLog(cfg, currentSelectedLog.logHash)
+                    } catch (e: UninitializedPropertyAccessException) {
+                    }
+                    java.awt.EventQueue.invokeLater {
+                        super.ProgressBar.isIndeterminate = false
+                    }
+                    try {
+                        val logContent = JSONMapper.readValue(jsonStr, TaskLogEntity::class.java)
+                        val dialog = SimpleEnlargePreview(this@MainApp, false)
+                        val taskSelected =
+                            allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }.toList()[0]
+                        dialog.updateTitle("Task: ${taskSelected.command}")
+                        dialog.setPreview(
+                            "<html><h3></h3>Log Hash: ${currentSelectedLog.logHash}<br><div>${
+                                logContent.log.replace(
+                                    "\n",
+                                    "<br>"
+                                )
+                            }</div></html>"
+                        )
+                        dialog.setLocationRelativeTo(null)
 
-                    dialog.isVisible = true
-                } catch (e: JsonMappingException) {
-                    JOptionPane.showMessageDialog(
-                        this@MainApp,
-                        "No such log details"
-                    )
+                        dialog.isVisible = true
+                    } catch (e: JsonMappingException) {
+                        JOptionPane.showMessageDialog(
+                            this@MainApp,
+                            "No such log details"
+                        )
+                    }
+                } else {
+                    // TODO
                 }
             }
         }
@@ -215,64 +219,69 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
 
             CoroutineScope(Dispatchers.IO).launch {
                 java.awt.EventQueue.invokeLater(kotlinx.coroutines.Runnable {
-                    val cfg = super.connReg[super.currentSelectedTreeNode]!!
-                    java.awt.EventQueue.invokeLater {
-                        super.ProgressBar.isIndeterminate = true
-                    }
-                    val jsonStr = listCronTasks(cfg)
-                    val scripts = JSONMapper.readValue(jsonStr, TasksEntity::class.java)
-                    allAvailableTaskDetails = scripts.tasks
+                    // when use default treenode and CRON node
+                    if (!super.currentSelectedTreeNode.endsWith("_++one")) {
+                        val cfg = super.connReg[super.currentSelectedTreeNode.replace("_++cron", "")]!!
+                        java.awt.EventQueue.invokeLater {
+                            super.ProgressBar.isIndeterminate = true
+                        }
+                        val jsonStr = listCronTasks(cfg)
+                        val scripts = JSONMapper.readValue(jsonStr, TasksEntity::class.java)
+                        allAvailableTaskDetails = scripts.tasks
 
-                    val whichTaskHashHasBadLog = mutableListOf<String>()
-                    val whichTaskHashHasUndefinedLog = mutableListOf<String>()
-                    val whichTaskHashHasSucceedLog = mutableListOf<String>()
+                        val whichTaskHashHasBadLog = mutableListOf<String>()
+                        val whichTaskHashHasUndefinedLog = mutableListOf<String>()
+                        val whichTaskHashHasSucceedLog = mutableListOf<String>()
 
-                    for (s in scripts.tasks) {
-                        val brs = fetchLogBriefsWrapper(cfg, s.taskHash).brief
-                        if (brs.isEmpty()) {
-                            // if not run, set as undefined
-                            whichTaskHashHasUndefinedLog.add(s.taskHash)
-                            continue
-                        } else {
-                            // check the latest one' status
-                            val br = brs.last()
-                            val jsonStrLog = fetchLog(cfg, br.logHash)
-                            val logContent = JSONMapper.readValue(jsonStrLog, TaskLogEntity::class.java).log
-                            for (badWord in keyWords.failed) {
-                                if (badWord in logContent) {
-                                    whichTaskHashHasBadLog.add(s.taskHash)
+                        for (s in scripts.tasks) {
+                            val brs = fetchLogBriefsWrapper(cfg, s.taskHash).brief
+                            if (brs.isEmpty()) {
+                                // if not run, set as undefined
+                                whichTaskHashHasUndefinedLog.add(s.taskHash)
+                                continue
+                            } else {
+                                // check the latest one' status
+                                val br = brs.last()
+                                val jsonStrLog = fetchLog(cfg, br.logHash)
+                                val logContent = JSONMapper.readValue(jsonStrLog, TaskLogEntity::class.java).log
+                                for (badWord in keyWords.failed) {
+                                    if (badWord in logContent) {
+                                        whichTaskHashHasBadLog.add(s.taskHash)
+                                    }
                                 }
-                            }
-                            for (undWord in keyWords.undefined) {
-                                if (undWord in logContent) {
-                                    whichTaskHashHasUndefinedLog.add(s.taskHash)
+                                for (undWord in keyWords.undefined) {
+                                    if (undWord in logContent) {
+                                        whichTaskHashHasUndefinedLog.add(s.taskHash)
+                                    }
                                 }
-                            }
-                            for (sucWord in keyWords.succeed) {
-                                if (sucWord in logContent) {
-                                    whichTaskHashHasSucceedLog.add(s.taskHash)
+                                for (sucWord in keyWords.succeed) {
+                                    if (sucWord in logContent) {
+                                        whichTaskHashHasSucceedLog.add(s.taskHash)
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    splitClustersAndCreateNewTabs(
-                        scripts.tasks,
-                        true,
-                        whichTaskHashHasBadLog.toSet().toList(),
-                        whichTaskHashHasUndefinedLog.toSet().toList(),
-                        whichTaskHashHasSucceedLog.toSet().toList()
-                    )
-                    Thread.sleep(1000)
-                    java.awt.EventQueue.invokeLater {
-                        updateRowColor()
-                        super.ProgressBar.isIndeterminate = false
-                        JOptionPane.showMessageDialog(
-                            this@MainApp,
-                            "Refresh done",
-                            "Done",
-                            JOptionPane.INFORMATION_MESSAGE
+                        splitClustersAndCreateNewTabs(
+                            scripts.tasks,
+                            true,
+                            whichTaskHashHasBadLog.toSet().toList(),
+                            whichTaskHashHasUndefinedLog.toSet().toList(),
+                            whichTaskHashHasSucceedLog.toSet().toList()
                         )
+                        Thread.sleep(1000)
+                        java.awt.EventQueue.invokeLater {
+                            updateRowColor()
+                            super.ProgressBar.isIndeterminate = false
+                            JOptionPane.showMessageDialog(
+                                this@MainApp,
+                                "Refresh done",
+                                "Done",
+                                JOptionPane.INFORMATION_MESSAGE
+                            )
+                        }
+                    } else {
+                        // TODO
                     }
                 })
             }
@@ -280,48 +289,61 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
     }
 
     override fun impTaskDetailOverviewButtonActionPerformed(evt: ActionEvent?) {
-        val cfg = super.connReg[super.currentSelectedTreeNode]!!
         java.awt.EventQueue.invokeLater {
-            val taskDetail = allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }
-            val dialog = SimpleEnlargePreview(this@MainApp, false)
-            dialog.updateTitle(taskDetail[0].command)
-            dialog.setPreview(
-                "<html><h3>URL: ${cfg.url}/taskDetails?taskHash=${taskDetail[0].taskHash}</h3>" +
-                        "<br><div>${taskDetail[0].toString().replace("\n", "<br>")}</div></html>"
-            )
-            dialog.setLocationRelativeTo(null)
+            if (!super.currentSelectedTreeNode.endsWith("_++one")) {
+                val cfg = super.connReg[super.currentSelectedTreeNode.replace("_++cron", "")]!!
+                val taskDetail = allAvailableTaskDetails.filter { it.taskHash == currentSelectTaskHash }
+                val dialog = SimpleEnlargePreview(this@MainApp, false)
+                try {
+                    dialog.updateTitle(taskDetail[0].command)
+                    dialog.setPreview(
+                        "<html><h3>URL: ${cfg.url}/taskDetails?taskHash=${taskDetail[0].taskHash}</h3>" +
+                                "<br><div>${taskDetail[0].toString().replace("\n", "<br>")}</div></html>"
+                    )
+                    dialog.setLocationRelativeTo(null)
 
-            dialog.isVisible = true
+                    dialog.isVisible = true
+                } catch (e: IndexOutOfBoundsException) {
+                    // DO NOTHING
+                }
+            } else {
+                // TODO
+            }
+
         }
     }
 
     override fun impFetchLogBriefButtonActionPerformed(evt: ActionEvent?) {
         if (currentSelectTaskHash.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
-                val cfg = super.connReg[super.currentSelectedTreeNode]!!
-                java.awt.EventQueue.invokeLater(kotlinx.coroutines.Runnable {
-                    super.ProgressBar.isIndeterminate = true
-                })
-                val briefs = fetchLogBriefsWrapper(cfg, currentSelectTaskHash)
+                if (!super.currentSelectedTreeNode.endsWith("_++one")) {
+                    val cfg = super.connReg[super.currentSelectedTreeNode.replace("_++cron", "")]!!
+                    java.awt.EventQueue.invokeLater(kotlinx.coroutines.Runnable {
+                        super.ProgressBar.isIndeterminate = true
+                    })
+                    val briefs = fetchLogBriefsWrapper(cfg, currentSelectTaskHash)
 
 
-                this@MainApp.availableScriptsLogsStorage = mutableListOf()
-                if (briefs.brief.isEmpty()) {
-                    availableScriptsLogs = mutableListOf("Empty")
-                } else {
-                    currentSelectedLog = briefs.brief[0]
-                    availableScriptsLogs = mutableListOf()
-                    for (b in briefs.brief) {
-                        availableScriptsLogsStorage.add(b)
-                        availableScriptsLogs.add(b.duration)
+                    this@MainApp.availableScriptsLogsStorage = mutableListOf()
+                    if (briefs.brief.isEmpty()) {
+                        availableScriptsLogs = mutableListOf("Empty")
+                    } else {
+                        currentSelectedLog = briefs.brief[0]
+                        availableScriptsLogs = mutableListOf()
+                        for (b in briefs.brief) {
+                            availableScriptsLogsStorage.add(b)
+                            availableScriptsLogs.add(b.duration)
+                        }
                     }
-                }
-                availableScriptsLogsStorage.reverse()
-                availableScriptsLogs.reverse()
+                    availableScriptsLogsStorage.reverse()
+                    availableScriptsLogs.reverse()
 
-                java.awt.EventQueue.invokeLater {
-                    refreshScriptsLogsDropdown()
-                    super.ProgressBar.isIndeterminate = false
+                    java.awt.EventQueue.invokeLater {
+                        refreshScriptsLogsDropdown()
+                        super.ProgressBar.isIndeterminate = false
+                    }
+                } else {
+                    // TODO
                 }
             }
         }
@@ -363,6 +385,9 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
         return JSONMapper.readValue(jsonStr, TaskBriefsEntity::class.java)
     }
 
+    /**
+     * Double click tree to connect and display registered tasks
+     * */
     override fun treeMouseClicked(evt: MouseEvent?) {
         if (evt!!.clickCount == 2 && !evt.isConsumed && currentSelectedTreeNode != "Compose Service" && currentSelectedTreeNode.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -408,6 +433,9 @@ class MainApp(connReg: List<SimpleConnectionCfg>, icon: Image) : impMainFrame(co
     }
 
     private fun showCronTasks(cfg: SimpleConnectionCfg) {
+        while (ScriptsTabbedPane.tabCount > 0)
+            ScriptsTabbedPane.remove(0)
+
         val jsonStr = listCronTasks(cfg)
         val scripts = JSONMapper.readValue(jsonStr, TasksEntity::class.java)
         allAvailableTaskDetails = scripts.tasks

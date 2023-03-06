@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="568afb52-56f5-4932-ad50-bc4308471de2" name="Changes" comment="update readme">
+    <list default="true" id="568afb52-56f5-4932-ad50-bc4308471de2" name="Changes" comment="add version info">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/keyword.json" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/keyword.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/services.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/ckho/USwingGUI/codegen/impMainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/ckho/USwingGUI/codegen/impMainFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/me/ckhoidea/scriptcomposeclient/MainApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/me/ckhoidea/scriptcomposeclient/MainApp.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,12 +43,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="ScriptComposeClient" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="application" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ScriptComposeClient" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
@@ -71,7 +67,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -99,11 +94,13 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ckhoi/IdeaProjects/ScriptComposeClient/screenshots/s1.png&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -115,7 +112,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Kotlin.MainKt">
-    <configuration name="ScriptComposeClient [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ScriptComposeClient [createExe]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -126,28 +123,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="ScriptComposeClient [createAllExecutables]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="createAllExecutables" />
+            <option value="createExe" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -169,6 +145,27 @@
         <option name="taskNames">
           <list>
             <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="ScriptComposeClient [launch4j]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="launch4j" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -209,10 +206,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
-        <item itemvalue="Gradle.ScriptComposeClient [createAllExecutables]" />
-        <item itemvalue="Gradle.ScriptComposeClient [clean]" />
+        <item itemvalue="Gradle.ScriptComposeClient [launch4j]" />
         <item itemvalue="Gradle.ScriptComposeClient [uberJar]" />
         <item itemvalue="Gradle.ScriptComposeClient [jar]" />
+        <item itemvalue="Gradle.ScriptComposeClient [createExe]" />
       </list>
     </recent_temporary>
   </component>
@@ -229,11 +226,16 @@
       <workItem from="1662653594289" duration="13985000" />
       <workItem from="1662693288056" duration="509000" />
       <workItem from="1662696073815" duration="7240000" />
-      <workItem from="1662757773877" duration="1283000" />
-      <workItem from="1662759135904" duration="585000" />
-      <workItem from="1662800251450" duration="2432000" />
-      <workItem from="1662803393311" duration="38000" />
-      <workItem from="1662807582637" duration="1341000" />
+      <workItem from="1663039851397" duration="626000" />
+      <workItem from="1663041926673" duration="3594000" />
+      <workItem from="1663225292227" duration="1391000" />
+      <workItem from="1663226857353" duration="40000" />
+      <workItem from="1665284191754" duration="1102000" />
+      <workItem from="1667788731480" duration="1385000" />
+      <workItem from="1670812902232" duration="1796000" />
+      <workItem from="1671099773156" duration="805000" />
+      <workItem from="1678013776069" duration="1022000" />
+      <workItem from="1678070363496" duration="4769000" />
     </task>
     <task id="LOCAL-00001" summary="start logic code">
       <created>1662667251726</created>
@@ -249,28 +251,63 @@
       <option name="project" value="LOCAL" />
       <updated>1662707352251</updated>
     </task>
-    <task id="LOCAL-00003" summary="first production">
-      <created>1662759713891</created>
+    <task id="LOCAL-00003" summary="fix many logic errors">
+      <created>1663039613982</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1662759713891</updated>
+      <updated>1663039613982</updated>
     </task>
-    <task id="LOCAL-00004" summary="update readme">
-      <created>1662803290929</created>
+    <task id="LOCAL-00004" summary="fix many logic errors-1">
+      <created>1663040440341</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1662803290929</updated>
+      <updated>1663040440341</updated>
     </task>
-    <task id="LOCAL-00005" summary="update readme">
-      <created>1662803415391</created>
+    <task id="LOCAL-00005" summary="add new re renderer">
+      <created>1663051142973</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1662803415391</updated>
+      <updated>1663051142973</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fix table row can't deselected">
+      <created>1663226536695</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1663226536695</updated>
+    </task>
+    <task id="LOCAL-00007" summary="change undefined color from yellow to orange&#10;when task not run yet, row color will be set to orange">
+      <created>1665284854961</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1665284854961</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add sleep to wait all rows rendered">
+      <created>1665285266251</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1665285266251</updated>
+    </task>
+    <task id="LOCAL-00009" summary="v1.0.2">
+      <created>1670813449205</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1670813449205</updated>
+    </task>
+    <task id="LOCAL-00010" summary="add version info">
+      <created>1670814492997</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1670814492997</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,10 +329,17 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="start logic code" />
     <MESSAGE value="update lots" />
-    <MESSAGE value="first production" />
-    <MESSAGE value="update readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="update readme" />
+    <MESSAGE value="fix many logic errors" />
+    <MESSAGE value="fix many logic errors-1" />
+    <MESSAGE value="add new re renderer" />
+    <MESSAGE value="fix table row can't deselected" />
+    <MESSAGE value="change undefined color from yellow to orange&#10;when task not run yet, row color will be set to orange" />
+    <MESSAGE value="add sleep to wait all rows rendered" />
+    <MESSAGE value="v1.0.2" />
+    <MESSAGE value="add version info" />
+    <option name="LAST_COMMIT_MESSAGE" value="add version info" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

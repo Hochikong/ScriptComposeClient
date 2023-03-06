@@ -550,6 +550,8 @@ public class impMainFrame extends javax.swing.JFrame {
                 treeMouseClicked(evt);
             }
         });
+
+        // change current selected tree node
         tree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
